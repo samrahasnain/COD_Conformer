@@ -690,13 +690,13 @@ class Net(nn.Module):
         
         self.conv11=nn.Sequential(nn.Conv2d(1536,2048,1,1),self.relu)
         #self.tran8=nn.Sequential(nn.Conv2d(576,128,1,1),self.relu)
-        self.tran8 = nn.Sequential(nn.ConvTranspose2d(576.128, kernel_size=5, stride=1),self.relu)
+        self.tran8 = nn.Sequential(nn.ConvTranspose2d(in_channels=576,out_channels=128, kernel_size=5, stride=1),self.relu)
         self.conv8=nn.Sequential(nn.Conv2d(768,512,1,1),self.relu)
         #self.tran4=nn.Sequential(nn.Conv2d(576,320,1,1),self.relu)
-        self.tran4=nn.Sequential(nn.ConvTranspose2d(576, 320, kernel_size=8, stride=2, padding=0),self.relu)
+        self.tran4=nn.Sequential(nn.ConvTranspose2d(in_channels=576, out_channels=320, kernel_size=8, stride=2, padding=0),self.relu)
         self.conv4=nn.Sequential(nn.Conv2d(384,1024,1,1),self.relu)
         #self.tran3=nn.Sequential(nn.Conv2d(576,64,1,1),self.relu)
-        self.tran3= nn.Sequential(nn.ConvTranspose2d(576, 64, kernel_size=20, stride=4, padding=0),self.relu)
+        self.tran3= nn.Sequential(nn.ConvTranspose2d(in_channels=576,out_channels= 64, kernel_size=20, stride=4, padding=0),self.relu)
         self.conv3=nn.Sequential(nn.Conv2d(384,256,1,1),self.relu)
     # def initialize_weights(self):
     # model_state = torch.load('./models/resnet50-19c8e357.pth')
