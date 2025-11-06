@@ -152,7 +152,7 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     # ---- build models ----
-    mymodel = build_model(self.config.network, self.config.arch)
+    mymodel = build_model()
     mymodel.JLModule.load_pretrained_model('/kaggle/input/conformerbase/Conformer_base_patch16.pth')
     model = mymodel.cuda()
     
