@@ -749,7 +749,7 @@ class Net(nn.Module):
         oe = F.interpolate(edge_att, scale_factor=4, mode='bilinear', align_corners=False)
 
         return o4, o3, o2, o1, oe
-def build_model(network='conformer', base_model_cfg='conformer'):
+def build_model():
    
         backbone= Conformer(patch_size=16, channel_ratio=6, embed_dim=576, depth=12,
                       num_heads=9, mlp_ratio=4, qkv_bias=True)
