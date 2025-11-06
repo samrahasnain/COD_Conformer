@@ -685,18 +685,18 @@ class Net(nn.Module):
             ConvBNR(256, 256, 3),
             nn.Conv2d(256, 1, 1))
         self.relu = nn.ReLU()
-        self.tran11= nn.Sequential(nn.Conv2d(in_channels=576, out_channels=512, kernel_size=1, stride=2, padding=1), self.relu
+        self.tran11= nn.Sequential(nn.Conv2d(in_channels=576, out_channels=512, kernel_size=3, stride=2, padding=1), self.relu
 )
         
         self.conv11=nn.Sequential(nn.Conv2d(1536,2048,1,1),self.relu)
         #self.tran8=nn.Sequential(nn.Conv2d(576,128,1,1),self.relu)
-        self.tran8 = nn.Sequential(nn.ConvTranspose2d(in_channels=576,out_channels=128, kernel_size=5, stride=1),self.relu)
+        self.tran8 = nn.Sequential(nn.Conv2d(in_channels=576,out_channels=128, kernel_size=1, stride=1),self.relu)
         self.conv8=nn.Sequential(nn.Conv2d(768,512,1,1),self.relu)
         #self.tran4=nn.Sequential(nn.Conv2d(576,320,1,1),self.relu)
-        self.tran4=nn.Sequential(nn.ConvTranspose2d(in_channels=576, out_channels=320, kernel_size=8, stride=2, padding=0),self.relu)
+        self.tran4=nn.Sequential(nn.ConvTranspose2d(in_channels=576, out_channels=320, kernel_size=2, stride=2, padding=0),self.relu)
         self.conv4=nn.Sequential(nn.Conv2d(384,1024,1,1),self.relu)
         #self.tran3=nn.Sequential(nn.Conv2d(576,64,1,1),self.relu)
-        self.tran3= nn.Sequential(nn.ConvTranspose2d(in_channels=576,out_channels= 64, kernel_size=20, stride=4, padding=0),self.relu)
+        self.tran3= nn.Sequential(nn.ConvTranspose2d(in_channels=576,out_channels= 64, kernel_size=4, stride=4, padding=0),self.relu)
         self.conv3=nn.Sequential(nn.Conv2d(384,256,1,1),self.relu)
     # def initialize_weights(self):
     # model_state = torch.load('./models/resnet50-19c8e357.pth')
@@ -709,10 +709,10 @@ class Net(nn.Module):
         t8 = t[8]
         t4 = t[4]
         t3 = t[3]
-        t11 = t11[:, 1:].transpose(1, 2).unflatten(2,(20,20))
-        t8 = t8[:, 1:].transpose(1, 2).unflatten(2,(20,20))
-        t4 = t4[:, 1:].transpose(1, 2).unflatten(2,(20,20))
-        t3 = t3[:, 1:].transpose(1, 2).unflatten(2,(20,20))
+        t11 = t11[:, 1:].transpose(1, 2).unflatten(2,(24,24))
+        t8 = t8[:, 1:].transpose(1, 2).unflatten(2,(24,24))
+        t4 = t4[:, 1:].transpose(1, 2).unflatten(2,(24,24))
+        t3 = t3[:, 1:].transpose(1, 2).unflatten(2,(24,24))
         t11=self.tran11(t11)
         x11=self.conv11(x[11])
         t8=self.tran8(t8)
