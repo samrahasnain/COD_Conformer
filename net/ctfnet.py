@@ -720,7 +720,10 @@ class Net(nn.Module):
         x4=self.conv4(x[4])
         t3=self.tran3(t3)
         x3=self.conv3(x[3])
-        
+        print(t11.shape,x11.shape)
+        print(t8.shape,x8.shape)
+        print(t4.shape,x4.shape)
+        print(t3.shape,x3.shape)
         edge = self.bam(x4, t11)
         edge_att = torch.sigmoid(edge)
 
