@@ -152,8 +152,9 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     # ---- build models ----
+    Net.JLModule.load_pretrained_model('/kaggle/input/conformerbase/Conformer_base_patch16.pth')
     model = Net().cuda()
-
+    
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr)
 
