@@ -1,7 +1,7 @@
 import torch
 from torch.autograd import Variable
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 from datetime import datetime
 from net.ctfnet import Net
@@ -10,7 +10,7 @@ from utils.utils import clip_gradient, AvgMeter, poly_lr
 import torch.nn.functional as F
 import numpy as np
 from utils.tdataloader import val_dataset
-from tensorboardX import SummaryWriter
+
 
 file = open("log/CTF-Net.txt", "a")
 torch.manual_seed(2021)
@@ -44,7 +44,7 @@ def dice_loss(predict, target):
     return loss.mean()
 
 
-def train(train_loader, model, optimizer, epoch, save_path, writer ):
+def train(train_loader, model, optimizer, epoch, save_path ):
     global step
     model.train()
     loss_all = 0
@@ -91,19 +91,15 @@ def train(train_loader, model, optimizer, epoch, save_path, writer ):
                        '[lateral-4: {:.4f}], [lateral-3: {:.4f}], [lateral-2: {:.4f}], [lateral-1: {:.4f}], [edge: {:,.4f}]\n'.
                        format(datetime.now(), epoch, opt.epoch, i, total_step,
                          loss_record4.avg, loss_record3.avg, loss_record2.avg, loss_record1.avg, loss_recorde.avg))
-            # TensorboardX-Loss
-            writer.add_scalars('Loss_Statistics',
-                                   {'Loss_pre': loss_pre.data, 'Loss_edge': losse.data,
-                                    'Loss_total': loss.data},
-                                   global_step=step)
+
     loss_all /= epoch_step
-    writer.add_scalar('Loss-epoch', loss_all, global_step=epoch)
+    
     if (epoch + 1) % 5 == 0 or (epoch + 1) == opt.epoch:
-        # torch.save(model.state_dict(), save_path + 'CTFNet-%d.pth' % epoch)
+        #torch.save(model.state_dict(), save_path + 'CTFNet-%d.pth' % epoch)
         print('[Saving Snapshot:]', save_path + 'CTFNet-%d.pth' % epoch)
         file.write('[Saving Snapshot:]' + save_path + 'CTFNet-%d.pth' % epoch + '\n')
 
-def val(val_loader, model, epoch, save_path, writer):
+def val(val_loader, model, epoch, save_path):
     """
     validation function
     """
@@ -124,7 +120,7 @@ def val(val_loader, model, epoch, save_path, writer):
             res = (res - res.min()) / (res.max() - res.min() + 1e-8)
             mae_sum += np.sum(np.abs(res - gt)) * 1.0 / (gt.shape[0] * gt.shape[1])
         mae = mae_sum / val_loader.size
-        writer.add_scalar('MAE', torch.tensor(mae), global_step=epoch)
+        
         print('Epoch: {}, MAE: {}, bestMAE: {}, bestEpoch: {}.'.format(epoch, mae, best_mae, best_epoch))
         if epoch == 1:
             best_mae = mae
@@ -165,16 +161,16 @@ if __name__ == '__main__':
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    image_root = '{}/Imgs/'.format(opt.train_path)
-    gt_root = '{}/GT/'.format(opt.train_path)
-    edge_root = '{}/Edge/'.format(opt.train_path)
+    image_root = '{}/Image/'.format(opt.train_path)
+    gt_root = '{}/GT_Object/'.format(opt.train_path)
+    edge_root = '{}/GT_Edge/'.format(opt.train_path)
 
     train_loader = get_loader(image_root, gt_root, edge_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
-    val_loader = val_dataset('{}/Imgs/'.format(opt.test_path), '{}/GT/'.format(opt.test_path), opt.trainsize)
+    val_loader = val_dataset('{}/Image/'.format(opt.test_path), '{}/GT_Object/'.format(opt.test_path), opt.trainsize)
     total_step = len(train_loader)
 
     step = 0
-    writer = SummaryWriter(save_path + 'summary')
+
     best_mae = 1
     best_epoch = 0
 
@@ -182,7 +178,7 @@ if __name__ == '__main__':
 
     for epoch in range(opt.epoch):
         poly_lr(optimizer, opt.lr, epoch, opt.epoch)
-        train(train_loader, model, optimizer, epoch, save_path, writer)
-        val(val_loader, model, epoch, save_path, writer)
+        train(train_loader, model, optimizer, epoch, save_path)
+        val(val_loader, model, epoch, save_path)
 
     file.close()
