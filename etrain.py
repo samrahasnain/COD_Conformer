@@ -61,7 +61,7 @@ def train(train_loader, model, optimizer, epoch, save_path ):
         # ---- forward ----
         lateral_map_4, lateral_map_3, lateral_map_2, lateral_map_1, edge_map = model(images)
         # ---- loss function ----
-        print(gts.shape,edges.shape)
+        
         loss4 = structure_loss(lateral_map_4, gts)
         loss3 = structure_loss(lateral_map_3, gts)
         loss2 = structure_loss(lateral_map_2, gts)
