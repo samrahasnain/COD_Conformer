@@ -724,7 +724,7 @@ class Net(nn.Module):
         print(t8.shape,x8.shape)
         print(t4.shape,x4.shape)
         print(t3.shape,x3.shape)
-        edge = self.bam(x4, t11)
+        edge = self.bam(x3, t11)
         edge_att = torch.sigmoid(edge)
 
         c1 = self.cdfm1(x3, t3)
