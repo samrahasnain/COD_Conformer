@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 import os, argparse
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 from net.ctfnet import Net
 from utils.tdataloader import test_dataset
 
@@ -15,8 +15,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=384, help='testing size')
 parser.add_argument('--pth_path', type=str, default='./checkpoints/CTF-Net/Net_epoch_best.pth')
 
-for _data_name in ['CAMO','CHAMELEON','COD10K','NC4K']:
-    data_path = '/home/zcc/data/COD/COD 10K/TestDataset/{}/'.format(_data_name)
+for _data_name in ['CAMO','CHAMELEON','COD10K']:
+    data_path = '/kaggle/input/cod-test/TestDataset/{}/'.format(_data_name)
     save_path = './results/CTF-Net/{}/'.format(_data_name)
     opt = parser.parse_args()
     model = Net()
@@ -51,4 +51,3 @@ for _data_name in ['CAMO','CHAMELEON','COD10K','NC4K']:
         # imageio.imwrite(save_path+'edge/'+name, (e*255).astype(np.uint8))
     print("{}'s average Time Is : {:.3f} s".format(_data_name, mean(time_list)))
     print("{}'s average Time Is : {:.1f} fps".format(_data_name, 1 / mean(time_list)))
-
