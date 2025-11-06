@@ -686,6 +686,7 @@ class Net(nn.Module):
             nn.Conv2d(256, 1, 1))
         self.tran11=self.tran11 = nn.Sequential(nn.Conv2d(in_channels=576, out_channels=512, kernel_size=1, stride=2, padding=1), self.relu
 )
+        self.relu = nn.ReLU()
         self.conv11=nn.Sequential(nn.Conv2d(1536,2048,1,1),self.relu)
         #self.tran8=nn.Sequential(nn.Conv2d(576,128,1,1),self.relu)
         self.tran8 = nn.Sequential(nn.ConvTranspose2d(576.128, kernel_size=5, stride=1),self.relu)
