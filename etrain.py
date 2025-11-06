@@ -4,7 +4,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 from datetime import datetime
-from net.ctfnet import Net
+from net.ctfnet import build_model
 from utils.tdataloader import get_loader
 from utils.utils import clip_gradient, AvgMeter, poly_lr
 import torch.nn.functional as F
@@ -152,8 +152,9 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     # ---- build models ----
-    Net.JLModule.load_pretrained_model('/kaggle/input/conformerbase/Conformer_base_patch16.pth')
-    model = Net().cuda()
+    mymodel = build_model(self.config.network, self.config.arch)
+    mymodel.JLModule.load_pretrained_model('/kaggle/input/conformerbase/Conformer_base_patch16.pth')
+    model = mymodel.cuda()
     
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr)
