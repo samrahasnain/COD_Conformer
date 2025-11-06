@@ -132,7 +132,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--gt_root', type=str, help='ground-truth root',
-        default='/home/zcc/data/COD/COD 10K/TestDataset')
+        default='/kaggle/input/cod-test/TestDataset')
     parser.add_argument(
         '--pred_root', type=str, help='prediction root',
         default='./results')                  #///////////////////////////////////////gai
@@ -141,8 +141,8 @@ if __name__ == '__main__':
         default='0')
     parser.add_argument(
         '--data_lst', type=list, help='test dataset',
-        default=['CHAMELEON', 'CAMO', 'COD10K', 'NC4K'],
-        choices=['CHAMELEON', 'CAMO', 'COD10K', 'NC4K'])
+        default=['CHAMELEON', 'CAMO', 'COD10K'],
+        choices=['CHAMELEON', 'CAMO', 'COD10K'])
     parser.add_argument(
         '--model_lst', type=list, help='candidate competitors',
         default=['CTF-Net'])   #///////////////////////////////////////gai
