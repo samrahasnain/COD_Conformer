@@ -737,7 +737,7 @@ class Net(nn.Module):
         c3_4 = F.interpolate(c3, size=c4.size()[2:], mode='bilinear', align_corners=False)
         o4 = self.block(torch.cat((c4, c1_4, c2_4, c3_4), dim=1))
         o4_r = torch.sigmoid(o4)
-        o4 = F.interpolate(o4, scale_factor=32, mode='bilinear', align_corners=False)
+        o4 = F.interpolate(o4, scale_factor=16, mode='bilinear', align_corners=False)
 
         c1f = self.reduce1(c1)
         c2f = self.reduce2(c2)
