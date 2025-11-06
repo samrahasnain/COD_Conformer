@@ -747,19 +747,23 @@ class Net(nn.Module):
         f3 = self.fem3(c3f, c4f, edge_att, o4_r)
         o3 = self.predictor3(f3)
         o3_r = torch.sigmoid(o3)
+        print(o3_r.shape)
         o3 = F.interpolate(o3, scale_factor=16, mode='bilinear', align_corners=False)
-
+        print(o3.shape)
         f2 = self.fem2(c2f, f3, edge_att, o3_r)
         o2 = self.predictor2(f2)
         o2_r = torch.sigmoid(o2)
+        print(o2_r.shape)
         o2 = F.interpolate(o2, scale_factor=8, mode='bilinear', align_corners=False)
-
+        print(o2.shape)
         f1 = self.fem1(c1f, f2, edge_att, o2_r)
         o1 = self.predictor1(f1)
+        print(o1.shape)
         o1 = F.interpolate(o1, scale_factor=4, mode='bilinear', align_corners=False)
-
+        print(o1.shape)
+        print(edge_att.shape)
         oe = F.interpolate(edge_att, scale_factor=4, mode='bilinear', align_corners=False)
-
+        print(oe.shape)
         return o4, o3, o2, o1, oe
 def build_model():
    
