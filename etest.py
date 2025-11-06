@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 import os, argparse
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-from net.ctfnet import Net
+from net.ctfnet import build_model
 from utils.tdataloader import test_dataset
 
 import time
