@@ -705,14 +705,21 @@ class Net(nn.Module):
     def forward(self, image):
 
         x,t = self.JLModule(image,image)
-        t = t[:, 1:].transpose(1, 2).unflatten(2,(20,20))
-        t11=self.tran11(t[11])
+        t11 = t[11]
+        t8 = t[8]
+        t4 = t[4]
+        t3 = t[3]
+        t11 = t11[:, 1:].transpose(1, 2).unflatten(2,(20,20))
+        t8 = t8[:, 1:].transpose(1, 2).unflatten(2,(20,20))
+        t4 = t4[:, 1:].transpose(1, 2).unflatten(2,(20,20))
+        t3 = t3[:, 1:].transpose(1, 2).unflatten(2,(20,20))
+        t11=self.tran11(t11)
         x11=self.conv11(x[11])
-        t8=self.tran8(t[8])
+        t8=self.tran8(t8)
         x8=self.conv8(x[8])
-        t4=self.tran4(t[4])
+        t4=self.tran4(t4)
         x4=self.conv4(x[4])
-        t3=self.tran3(t[3])
+        t3=self.tran3(t3)
         x3=self.conv3(x[3])
         
         edge = self.bam(x4, t11)
